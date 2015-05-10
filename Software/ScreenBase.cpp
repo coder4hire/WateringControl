@@ -1,7 +1,8 @@
 #include "ScreenBase.h"
 #include "MainScreen.h"
+#include "MenuScreen.h"
 
-CScreenBase* CScreenBase::pScreens[TOTAL_SCREENS_NUM] = {new CMainScreen()};
+CScreenBase* CScreenBase::pScreens[TOTAL_SCREENS_NUM] = {new CMainScreen(), new CMenuScreen};
 CScreenBase* CScreenBase::pCurrentScreen = pScreens[MAIN_SCREEN];
 
 CScreenBase::CScreenBase()

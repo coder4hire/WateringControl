@@ -13,7 +13,6 @@ class CMainScreen : public CScreenBase
         virtual void Refresh();
         virtual void CheckKeys(EKeys keys, EKeys justPressed, EKeys justReleased, bool isChanged);
     protected:
-        DS1302RTC rtcClock;
     private:
 };
 

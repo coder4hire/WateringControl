@@ -1,7 +1,8 @@
 #include "MainScreen.h"
 
+extern DS1302RTC rtcClock;
+
 CMainScreen::CMainScreen()
-:rtcClock(7,6,5)
 {
     OnShow(); // Do this for CMainScreen only because it is first shown screen
 }
@@ -28,12 +29,6 @@ void CMainScreen::CheckKeys(EKeys keys, EKeys justPressed, EKeys justReleased, b
 {
     if(justPressed&KEY_OK)
     {
-        rtcClock.haltRTC(0);
+        SwitchScreens(MENU_SCREEN);
     }
-
-    if(justPressed&KEY_CANCEL)
-    {
-        rtcClock.haltRTC(1);
-    }
-
 }

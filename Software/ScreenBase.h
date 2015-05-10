@@ -8,6 +8,7 @@ extern LiquidCrystal lcd;
 enum EScreenIDs
 {
     MAIN_SCREEN=0,
+    MENU_SCREEN,
     TOTAL_SCREENS_NUM
 };
 

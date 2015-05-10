@@ -14,11 +14,15 @@
 
 #include "ScreenBase.h"
 #include "MainScreen.h"
+#include "DS1302RTC.h"
 
 #define QUANT_DELAY 100
 #define REFRESH_DELAY_MULTIPLIER 5
 
 LiquidCrystal lcd(4, 3, 2); //shift input (clk-dat-E)
+
+DS1302RTC rtcClock(7,6,5);
+
 byte smiley[8] =
 {
     B01110,
@@ -46,8 +50,15 @@ void setup()
     lcd.createChar(1,smiley);
     lcd.begin(8, 2);
 
-//  pinMode(7, INPUT);
-//  pinMode(9, OUTPUT);
+    pinMode(10, OUTPUT);
+    pinMode(11, OUTPUT);
+    pinMode(12, OUTPUT);
+    pinMode(13, OUTPUT);
+
+    if(rtcClock.haltRTC())
+    {
+        rtcClock.haltRTC(0);
+    }
 }
 
 void loop()
