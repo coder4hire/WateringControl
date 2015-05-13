@@ -659,6 +659,8 @@
 		<Unit filename="LiquidCrystal2.h" />
 		<Unit filename="MainScreen.cpp" />
 		<Unit filename="MainScreen.h" />
+		<Unit filename="MenuScreen.cpp" />
+		<Unit filename="MenuScreen.h" />
 		<Unit filename="ScreenBase.cpp" />
 		<Unit filename="ScreenBase.h" />
 		<Unit filename="Time.cpp" />
