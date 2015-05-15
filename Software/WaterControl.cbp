@@ -653,6 +653,8 @@
 		</Compiler>
 		<Unit filename="DS1302RTC.cpp" />
 		<Unit filename="DS1302RTC.h" />
+		<Unit filename="EnvLogScreen.cpp" />
+		<Unit filename="EnvLogScreen.h" />
 		<Unit filename="KeysParser.cpp" />
 		<Unit filename="KeysParser.h" />
 		<Unit filename="LiquidCrystal.cpp" />
@@ -661,8 +663,12 @@
 		<Unit filename="MainScreen.h" />
 		<Unit filename="MenuScreen.cpp" />
 		<Unit filename="MenuScreen.h" />
+		<Unit filename="ScheduleScreen.cpp" />
+		<Unit filename="ScheduleScreen.h" />
 		<Unit filename="ScreenBase.cpp" />
 		<Unit filename="ScreenBase.h" />
+		<Unit filename="SettingsScreen.cpp" />
+		<Unit filename="SettingsScreen.h" />
 		<Unit filename="Time.cpp" />
 		<Unit filename="Time.h" />
 		<Unit filename="WaterControl.ino">

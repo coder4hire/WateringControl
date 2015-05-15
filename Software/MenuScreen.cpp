@@ -1,6 +1,6 @@
 #include "MenuScreen.h"
 
-byte CMenuScreen::icons[ICONS_NUM][8] =
+byte CMenuScreen::icons[MENU_ICONS_NUM][7] =
 {
     {
         B01110,
@@ -49,9 +49,11 @@ byte CMenuScreen::icons[ICONS_NUM][8] =
     }
 };
 
-char cursorPatterns[ICONS_NUM_DISPLAYED][5]={"\x03\x04  "," \x03\x04 ","  \x03\x04"};
+char cursorPatterns[MENU_ICONS_NUM_DISPLAYED][5]={"\x03\x04  "," \x03\x04 ","  \x03\x04"};
 
-char CMenuScreen::description[ICONS_NUM_DISPLAYED][9]={"SCHEDULE","ENV.LOGS","SETTINGS"};
+char CMenuScreen::description[MENU_ICONS_NUM_DISPLAYED][9]={"SCHEDULE","ENV.LOGS","SETTINGS"};
+
+byte CMenuScreen::screenDescriptors[MENU_ICONS_NUM_DISPLAYED]={SCHEDULE_SCREEN,ENVLOG_SCREEN,SETTINGS_SCREEN};
 
 
 CMenuScreen::CMenuScreen()
@@ -65,7 +67,7 @@ CMenuScreen::~CMenuScreen()
 
 void CMenuScreen::OnShow()
 {
-    for(int i=0;i<ICONS_NUM;i++)
+    for(int i=0;i<MENU_ICONS_NUM;i++)
     {
         lcd.createChar(i,icons[i]);
     }
@@ -75,13 +77,12 @@ void CMenuScreen::OnShow()
 
     lcd.setCursor(0,0);
     lcd.print("  ");
-    for(int i=0;i<ICONS_NUM;i++)
+    for(int i=0;i<MENU_ICONS_NUM;i++)
     {
         lcd.print((char)(i));
         lcd.print(' ');
     }
     lcd.print(' ');
-    Refresh();
 }
 
 void CMenuScreen::Refresh()
@@ -108,15 +109,16 @@ void CMenuScreen::CheckKeys(EKeys keys, EKeys justPressed, EKeys justReleased, b
 
     if(justPressed&KEY_RIGHT)
     {
-        currentItem=(currentItem+1)%ICONS_NUM_DISPLAYED;
+        currentItem=(currentItem+1)%MENU_ICONS_NUM_DISPLAYED;
         Refresh();
     }
     if(justPressed&KEY_LEFT)
     {
-        currentItem=(currentItem-1+ICONS_NUM_DISPLAYED)%ICONS_NUM_DISPLAYED;
+        currentItem=(currentItem-1+MENU_ICONS_NUM_DISPLAYED)%MENU_ICONS_NUM_DISPLAYED;
         Refresh();
     }
     if(justPressed&KEY_OK)
     {
+        SwitchScreens((EScreenIDs)screenDescriptors[currentItem]);
     }
 }

@@ -3,12 +3,17 @@
 
 #include "KeysParser.h"
 #include "LiquidCrystal2.h" // include updated library code:
+#include <Arduino.h>
+
 extern LiquidCrystal lcd;
 
 enum EScreenIDs
 {
     MAIN_SCREEN=0,
     MENU_SCREEN,
+    SCHEDULE_SCREEN,
+    ENVLOG_SCREEN,
+    SETTINGS_SCREEN,
     TOTAL_SCREENS_NUM
 };
 
