@@ -671,6 +671,8 @@
 		<Unit filename="SettingsScreen.h" />
 		<Unit filename="Time.cpp" />
 		<Unit filename="Time.h" />
+		<Unit filename="TimeManager.cpp" />
+		<Unit filename="TimeManager.h" />
 		<Unit filename="WaterControl.ino">
 			<Option compile="1" />
 			<Option link="1" />

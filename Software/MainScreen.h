@@ -2,7 +2,6 @@
 #define CMAINSCREEN_H
 
 #include "ScreenBase.h"
-#include "DS1302RTC.h"
 
 class CMainScreen : public CScreenBase
 {

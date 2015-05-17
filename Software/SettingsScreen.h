@@ -19,6 +19,7 @@ class CSettingsScreen : public CScreenBase
         virtual ~CSettingsScreen();
 
         virtual void OnShow();
+        virtual void OnClose();
         virtual void Refresh();
         virtual void CheckKeys(EKeys keys, EKeys justPressed, EKeys justReleased, bool isChanged);
     protected:
@@ -31,12 +32,13 @@ class CSettingsScreen : public CScreenBase
 
         char blinkPosition;
         bool isBlinkingShown;
-        char blinkingData;
+        char& ValueDigit(){return value[cursorPositions[settingNum][blinkPosition]];}
+
         static char cursorPositions[MAX_SETTINGS_NUM][8];
         static char minValues[MAX_SETTINGS_NUM][8];
         static char maxValues[MAX_SETTINGS_NUM][8];
         static char settingsNames[MAX_SETTINGS_NUM][8];
-
+        static char maxDays[12];
 
         void SaveData();
         void LoadData();

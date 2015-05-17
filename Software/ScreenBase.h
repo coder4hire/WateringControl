@@ -7,6 +7,9 @@
 
 extern LiquidCrystal lcd;
 
+#define REFRESH_MULTIPLIER_DEFAULT 5
+extern byte RefreshMultiplier;
+
 enum EScreenIDs
 {
     MAIN_SCREEN=0,

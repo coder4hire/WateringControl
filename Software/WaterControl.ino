@@ -14,14 +14,11 @@
 
 #include "ScreenBase.h"
 #include "MainScreen.h"
-#include "DS1302RTC.h"
 
 #define QUANT_DELAY 100
-#define REFRESH_DELAY_MULTIPLIER 5
 
+byte RefreshMultiplier=5;
 LiquidCrystal lcd(4, 3, 2); //shift input (clk-dat-E)
-
-DS1302RTC rtcClock(7,6,5);
 
 byte smiley[8] =
 {
@@ -55,10 +52,7 @@ void setup()
     pinMode(12, OUTPUT);
     pinMode(13, OUTPUT);
 
-    if(rtcClock.haltRTC())
-    {
-        rtcClock.haltRTC(0);
-    }
+    RefreshMultiplier=REFRESH_MULTIPLIER_DEFAULT;
 }
 
 void loop()
@@ -72,7 +66,7 @@ void loop()
     CScreenBase::GetCurrentScreen()->CheckKeys(CKeysParser::Inst.GetKeyMap(),justPressed,justReleased,isChanged);
 
     // Processing refreshes
-    if(++refreshCounter>REFRESH_DELAY_MULTIPLIER)
+    if(++refreshCounter>RefreshMultiplier)
     {
         refreshCounter=0;
         CScreenBase::GetCurrentScreen()->Refresh();

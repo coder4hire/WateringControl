@@ -1,6 +1,5 @@
 #include "MainScreen.h"
-
-extern DS1302RTC rtcClock;
+#include "TimeManager.h"
 
 CMainScreen::CMainScreen()
 {
@@ -16,13 +15,13 @@ void CMainScreen::Refresh()
 {
     lcd.setCursor(0,0);
     char out[10];
-    tmElements_t tm;
-    uint8_t stat = rtcClock.read(tm);
-    sprintf(out,"%02d:%02d,%d",tm.Hour,tm.Minute,stat);
+    CTimeManager::Inst.GetTimeString(out);
     lcd.print(out);
-
+    lcd.print(' ');
+    lcd.print(CTimeManager::Inst.GetWeekDayString());
     lcd.setCursor(0,1);
-    lcd.print(rtcClock.haltRTC());
+    lcd.print("        ");
+
 }
 
 void CMainScreen::CheckKeys(EKeys keys, EKeys justPressed, EKeys justReleased, bool isChanged)
