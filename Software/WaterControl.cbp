@@ -665,6 +665,8 @@
 		<Unit filename="MenuScreen.h" />
 		<Unit filename="ScheduleScreen.cpp" />
 		<Unit filename="ScheduleScreen.h" />
+		<Unit filename="ScheduleSymbolsGenerator.cpp" />
+		<Unit filename="ScheduleSymbolsGenerator.h" />
 		<Unit filename="ScreenBase.cpp" />
 		<Unit filename="ScreenBase.h" />
 		<Unit filename="SettingsScreen.cpp" />

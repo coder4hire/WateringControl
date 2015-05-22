@@ -3,6 +3,29 @@
 
 #include "DS1302RTC.h"
 
+#define CHANNELS_NUM 4
+#define MAX_ITEMS_PER_CHANNEL 10
+
+enum EWeekDaysMasks
+{
+    WDM_NONE=0,
+    WDM_SUNDAY=1,
+    WDM_MONDAY=2,
+    WDM_TUESDAY=4,
+    WDM_WEDNESDAY=8,
+    WDM_THURSDAY=16,
+    WDM_FRIDAY=32,
+    WDM_SATURDAY=64
+};
+
+struct CScheduleItem
+{
+    byte WeekDayMask;
+    time_t PresetTime;
+    short Duration;
+    time_t ActualStartTime;
+};
+
 class CTimeManager
 {
     public:
@@ -18,6 +41,7 @@ class CTimeManager
     protected:
         CTimeManager();
         DS1302RTC rtcClock;
+        CScheduleItem schedule[CHANNELS_NUM][MAX_ITEMS_PER_CHANNEL];
 
         static char weekDayNames[7][3];
     private:
