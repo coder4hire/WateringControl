@@ -4,7 +4,8 @@
 #include "ScreenBase.h"
 #include "ScheduleSymbolsGenerator.h"
 
-#define SCHEDULE_ICONS_NUM 3
+#define MAX_SCHEDULE_DATA_NUM 14
+#define WEEKDAY_DATA_START 4
 
 class CScheduleScreen : public CScreenBase
 {
@@ -13,16 +14,30 @@ class CScheduleScreen : public CScreenBase
         virtual ~CScheduleScreen();
 
         virtual void OnShow();
+        virtual void OnClose();
         virtual void Refresh();
         virtual void CheckKeys(EKeys keys, EKeys justPressed, EKeys justReleased, bool isChanged);
+
     protected:
         void PrintScreen();
-        //static byte icons[SCHEDULE_ICONS_NUM][7];
         CScheduleSymbolsGenerator symbolsGenerator;
 
         int currentChannel;
         int currentItem;
         bool isInEditMode;
+        char value[MAX_SCHEDULE_DATA_NUM+1];
+
+        char blinkPosition;
+        bool isBlinkingShown;
+        char& ValueDigit(){return value[blinkPosition];}
+        byte CalculateWeekdayMask();
+
+        static const char cursorPositions[2][MAX_SCHEDULE_DATA_NUM];
+        static const char minValues[MAX_SCHEDULE_DATA_NUM];
+        static const char maxValues[MAX_SCHEDULE_DATA_NUM];
+
+        void SaveData();
+        void LoadData();
 };
 
 #endif // CSCHEDULESCREEN_H

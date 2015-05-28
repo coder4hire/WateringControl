@@ -23,7 +23,7 @@ class CSettingsScreen : public CScreenBase
         virtual void Refresh();
         virtual void CheckKeys(EKeys keys, EKeys justPressed, EKeys justReleased, bool isChanged);
     protected:
-        static byte icons[SETTINGS_ICONS_NUM][7];
+        static const byte icons[SETTINGS_ICONS_NUM][7];
         void PaintMenu();
 
         bool isInEditMode;
@@ -34,11 +34,11 @@ class CSettingsScreen : public CScreenBase
         bool isBlinkingShown;
         char& ValueDigit(){return value[cursorPositions[settingNum][blinkPosition]];}
 
-        static char cursorPositions[MAX_SETTINGS_NUM][8];
-        static char minValues[MAX_SETTINGS_NUM][8];
-        static char maxValues[MAX_SETTINGS_NUM][8];
-        static char settingsNames[MAX_SETTINGS_NUM][8];
-        static char maxDays[12];
+        static const char cursorPositions[MAX_SETTINGS_NUM][8];
+        static const char minValues[MAX_SETTINGS_NUM][8];
+        static const char maxValues[MAX_SETTINGS_NUM][8];
+        static const char settingsNames[MAX_SETTINGS_NUM][8];
+        static const char maxDays[12];
 
         void SaveData();
         void LoadData();

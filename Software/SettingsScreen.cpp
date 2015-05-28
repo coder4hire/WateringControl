@@ -1,13 +1,13 @@
 #include "SettingsScreen.h"
 #include "TimeManager.h"
 
-char CSettingsScreen::cursorPositions[MAX_SETTINGS_NUM][8]={{0,1,3,4,-1},{0,1,3,4,6,7,-1}};
-char CSettingsScreen::minValues[MAX_SETTINGS_NUM][8]={{'0','0','0','0',-1},{'0','0','0','0','0','0',-1}};
-char CSettingsScreen::maxValues[MAX_SETTINGS_NUM][8]={{'2','9','5','9',-1},{'3','9','1','9','9','9',-1}};
-char CSettingsScreen::settingsNames[MAX_SETTINGS_NUM][8]={"Time   ","Date   "};
-char CSettingsScreen::maxDays[12]={31,28,31,30,31,30,31,31,30,31,30,31};
+const char CSettingsScreen::cursorPositions[MAX_SETTINGS_NUM][8]={{0,1,3,4,-1},{0,1,3,4,6,7,-1}};
+const char CSettingsScreen::minValues[MAX_SETTINGS_NUM][8]={{'0','0','0','0',-1},{'0','0','0','0','0','0',-1}};
+const char CSettingsScreen::maxValues[MAX_SETTINGS_NUM][8]={{'2','9','5','9',-1},{'3','9','1','9','9','9',-1}};
+const char CSettingsScreen::settingsNames[MAX_SETTINGS_NUM][8]={"Time   ","Date   "};
+const char CSettingsScreen::maxDays[12]={31,28,31,30,31,30,31,31,30,31,30,31};
 
-byte CSettingsScreen::icons[SETTINGS_ICONS_NUM][7] =
+const byte CSettingsScreen::icons[SETTINGS_ICONS_NUM][7] =
 {
     {
         B01110,
@@ -49,7 +49,7 @@ void CSettingsScreen::OnShow()
     isInEditMode=false;
     for(int i=0;i<SETTINGS_ICONS_NUM;i++)
     {
-        lcd.createChar(i,icons[i]);
+        lcd.createChar(i,(uint8_t*)icons[i]);
     }
     LoadData();
     PaintMenu();

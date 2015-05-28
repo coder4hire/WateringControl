@@ -8,10 +8,10 @@ enum SCHEDULE_SYMBOLS
 {
     SSYM_NONE=0,
     SSYM_CHAN,
-    SSYM_ST,
-    SSYM_MF,
-    SSYM_TS,
-    SSYM_W,
+    SSYM_S,
+    SSYM_MT,
+    SSYM_TF,
+    SSYM_WS,
     SSYM_NO_POWER_RESTRICTION,
     SSYM_MAX
 };
@@ -25,10 +25,12 @@ class CScheduleSymbolsGenerator
         void SetChannel(int chanNum);
         void SetWeekday(byte weekDayMask);
     protected:
-        static byte iconNoPowerRestrictions[7];
-        static byte emptySpace[7];
-        static byte iconsChannelNums[CHANNELS_NUM][7];
-        static byte iconsWeekDays[12][7];
+        static const byte iconNoPowerRestrictions[7];
+        static const byte emptySpaces[2][7];
+        static const byte iconsChannelNums[CHANNELS_NUM][7];
+        static const byte iconsWeekDays[12][7];
+        byte currentChannel;
+        byte currentWeekdayIcons[4];
     private:
 };
 
