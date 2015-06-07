@@ -18,11 +18,12 @@ enum EWeekDaysMasks
     WDM_SATURDAY=64
 };
 
+#define CSCHEDULEITEM_SAVEABLE_SIZE 7
 struct CScheduleItem
 {
     byte WeekDayMask;
-    time_t PresetTime;
-    short Duration;
+    short PresetTimeMinutes;
+    long Duration;
     time_t ActualStartTime;
 };
 
@@ -38,10 +39,14 @@ class CTimeManager
         void SetDate(int day, int month, int year);
         char* GetWeekDayString();
 
+        CScheduleItem Schedule[CHANNELS_NUM][MAX_ITEMS_PER_CHANNEL];
+
+        void LoadSchedule();
+        int SaveSchedule();
+
     protected:
         CTimeManager();
         DS1302RTC rtcClock;
-        CScheduleItem schedule[CHANNELS_NUM][MAX_ITEMS_PER_CHANNEL];
 
         static char weekDayNames[7][3];
     private:

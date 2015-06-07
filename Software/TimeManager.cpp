@@ -1,4 +1,5 @@
 #include "TimeManager.h"
+#include <EEPROM.h>
 
 CTimeManager CTimeManager::Inst;
 
@@ -11,6 +12,8 @@ rtcClock(7,6,5)
     {
         rtcClock.haltRTC(0);
     }
+
+    LoadSchedule();
 }
 
 CTimeManager::~CTimeManager()
@@ -59,4 +62,42 @@ void CTimeManager::SetDate(int day, int month, int year)
     time_t tt = makeTime(tm);
     tm.Wday = (((tt/24/3600) + 4) % 7) + 1;
     rtcClock.write(tm);
+}
+
+void CTimeManager::LoadSchedule()
+{
+    for(int i=0;i<CHANNELS_NUM;i++)
+    {
+        for(int j=0;j<MAX_ITEMS_PER_CHANNEL;j++)
+        {
+            int startAddr = (i*MAX_ITEMS_PER_CHANNEL+j)*CSCHEDULEITEM_SAVEABLE_SIZE;
+            for(int k=0;k<CSCHEDULEITEM_SAVEABLE_SIZE;k++)
+            {
+                ((uint8_t*)(&Schedule[i][j]))[k]= EEPROM.read(startAddr+k);
+            }
+        }
+    }
+}
+
+int CTimeManager::SaveSchedule()
+{
+    int bytesWritten=0;
+    for(int i=0;i<CHANNELS_NUM;i++)
+    {
+        for(int j=0;j<MAX_ITEMS_PER_CHANNEL;j++)
+        {
+            int startAddr = (i*MAX_ITEMS_PER_CHANNEL+j)*CSCHEDULEITEM_SAVEABLE_SIZE;
+            for(int k=0;k<CSCHEDULEITEM_SAVEABLE_SIZE;k++)
+            {
+                uint8_t byteFromEEPROM = EEPROM.read(startAddr+k);
+                uint8_t byteFromArray = ((uint8_t*)(&Schedule[i][j]))[k];
+                if(byteFromEEPROM!=byteFromArray)
+                {
+                    EEPROM.write(startAddr+k,byteFromArray);
+                    bytesWritten++;
+                }
+            }
+        }
+    }
+    return bytesWritten;
 }
