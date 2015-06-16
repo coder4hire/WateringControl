@@ -6,6 +6,14 @@
 #define CHANNELS_NUM 4
 #define MAX_ITEMS_PER_CHANNEL 10
 
+enum EChannelPins
+{
+    CHAN_PIN1 = 10,
+    CHAN_PIN2,
+    CHAN_PIN3,
+    CHAN_PIN4
+};
+
 enum EWeekDaysMasks
 {
     WDM_NONE=0,
@@ -44,11 +52,19 @@ class CTimeManager
         void LoadSchedule();
         int SaveSchedule();
 
+        void CheckEvents();
+        bool IsChannelBusy(int chanNum){return (chanBusyBitfield&(1<<(chanNum-1)))!=0;}
+
     protected:
         CTimeManager();
         DS1302RTC rtcClock;
 
+        void StartEvent(int channelNum,int eventNum);
+        void StopEvent(int channelNum,int eventNum);
+
         static char weekDayNames[7][3];
+
+        byte chanBusyBitfield;
     private:
 };
 

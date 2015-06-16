@@ -20,7 +20,15 @@ void CMainScreen::Refresh()
     lcd.print(' ');
     lcd.print(CTimeManager::Inst.GetWeekDayString());
     lcd.setCursor(0,1);
-    lcd.print("        ");
+    char row[9]="        ";
+    for(int i=0;i<CHANNELS_NUM;i++)
+    {
+        if(CTimeManager::Inst.IsChannelBusy(i+1))
+        {
+            row[i]='1'+i;
+        }
+    }
+    lcd.print(row);
 
 }
 

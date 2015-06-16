@@ -1,54 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Arduino Pro Mini (328)" />
-	<File name="MainScreen.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="488" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="MainScreen.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="71" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="MenuScreen.cpp" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1484" topLine="57" />
-		</Cursor>
-	</File>
-	<File name="EnvLogScreen.cpp" open="1" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="0" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="MenuScreen.h" open="0" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="479" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="EnvLogScreen.h" open="1" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="79" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="ScheduleScreen.cpp" open="1" top="1" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="7759" topLine="234" />
-		</Cursor>
-	</File>
-	<File name="KeysParser.cpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="401" topLine="0" />
-		</Cursor>
-	</File>
 	<File name="ScheduleScreen.h" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="731" topLine="7" />
-		</Cursor>
-	</File>
-	<File name="KeysParser.h" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="611" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="ScheduleSymbolsGenerator.cpp" open="1" top="0" tabpos="17" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
@@ -56,19 +11,9 @@
 			<Cursor1 position="3413" topLine="193" />
 		</Cursor>
 	</File>
-	<File name="LiquidCrystal.cpp" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="854" topLine="45" />
-		</Cursor>
-	</File>
 	<File name="ScheduleSymbolsGenerator.h" open="1" top="0" tabpos="16" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="186" topLine="6" />
-		</Cursor>
-	</File>
-	<File name="LiquidCrystal2.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="734" topLine="31" />
+			<Cursor1 position="761" topLine="6" />
 		</Cursor>
 	</File>
 	<File name="ScreenBase.cpp" open="1" top="0" tabpos="18" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -76,19 +21,9 @@
 			<Cursor1 position="452" topLine="7" />
 		</Cursor>
 	</File>
-	<File name="DS1302RTC.cpp" open="0" top="0" tabpos="19" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1954" topLine="49" />
-		</Cursor>
-	</File>
 	<File name="ScreenBase.h" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="133" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="DS1302RTC.h" open="0" top="0" tabpos="18" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="3162" topLine="84" />
 		</Cursor>
 	</File>
 	<File name="SettingsScreen.cpp" open="1" top="0" tabpos="13" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -98,7 +33,7 @@
 	</File>
 	<File name="SettingsScreen.h" open="1" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="584" topLine="15" />
+			<Cursor1 position="822" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="Time.cpp" open="0" top="0" tabpos="20" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -111,19 +46,84 @@
 			<Cursor1 position="486" topLine="5" />
 		</Cursor>
 	</File>
-	<File name="TimeManager.cpp" open="1" top="0" tabpos="15" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="TimeManager.cpp" open="1" top="1" tabpos="15" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2415" topLine="72" />
+			<Cursor1 position="3389" topLine="106" />
 		</Cursor>
 	</File>
 	<File name="TimeManager.h" open="1" top="0" tabpos="14" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="927" topLine="21" />
+			<Cursor1 position="978" topLine="34" />
 		</Cursor>
 	</File>
 	<File name="WaterControl.ino" open="1" top="0" tabpos="19" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="708" topLine="0" />
+			<Cursor1 position="1742" topLine="60" />
+		</Cursor>
+	</File>
+	<File name="DS1302RTC.cpp" open="0" top="0" tabpos="19" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1954" topLine="49" />
+		</Cursor>
+	</File>
+	<File name="DS1302RTC.h" open="0" top="0" tabpos="18" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3162" topLine="84" />
+		</Cursor>
+	</File>
+	<File name="EnvLogScreen.cpp" open="1" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="EnvLogScreen.h" open="1" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="79" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="KeysParser.cpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="401" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="KeysParser.h" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="611" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="LiquidCrystal.cpp" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="854" topLine="45" />
+		</Cursor>
+	</File>
+	<File name="LiquidCrystal2.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="734" topLine="31" />
+		</Cursor>
+	</File>
+	<File name="MainScreen.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="432" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="MainScreen.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="71" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="MenuScreen.cpp" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1484" topLine="57" />
+		</Cursor>
+	</File>
+	<File name="MenuScreen.h" open="0" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="479" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="ScheduleScreen.cpp" open="1" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="7738" topLine="237" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

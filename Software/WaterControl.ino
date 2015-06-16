@@ -14,6 +14,7 @@
 
 #include "ScreenBase.h"
 #include "MainScreen.h"
+#include "TimeManager.h"
 
 #define QUANT_DELAY 100
 
@@ -47,10 +48,10 @@ void setup()
     lcd.createChar(1,smiley);
     lcd.begin(8, 2);
 
-    pinMode(10, OUTPUT);
-    pinMode(11, OUTPUT);
-    pinMode(12, OUTPUT);
-    pinMode(13, OUTPUT);
+    pinMode(CHAN_PIN1, OUTPUT);
+    pinMode(CHAN_PIN2, OUTPUT);
+    pinMode(CHAN_PIN3, OUTPUT);
+    pinMode(CHAN_PIN4, OUTPUT);
 
     RefreshMultiplier=REFRESH_MULTIPLIER_DEFAULT;
 }
@@ -69,6 +70,7 @@ void loop()
     if(++refreshCounter>RefreshMultiplier)
     {
         refreshCounter=0;
+        CTimeManager::Inst.CheckEvents();
         CScreenBase::GetCurrentScreen()->Refresh();
     }
 

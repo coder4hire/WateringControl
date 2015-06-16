@@ -6,7 +6,8 @@ CTimeManager CTimeManager::Inst;
 char CTimeManager::weekDayNames[7][3]={"Su","Mo","Tu","We","Th","Fr","Sa"};
 
 CTimeManager::CTimeManager():
-rtcClock(7,6,5)
+rtcClock(7,6,5),
+chanBusyBitfield(0)
 {
     if(rtcClock.haltRTC())
     {
@@ -24,21 +25,21 @@ CTimeManager::~CTimeManager()
 void CTimeManager::GetTimeString(char* out)
 {
     tmElements_t tm;
-    uint8_t stat = rtcClock.read(tm);
+    rtcClock.read(tm);
     sprintf(out,"%02d:%02d",tm.Hour,tm.Minute);
 }
 
 void CTimeManager::GetDateString(char* out)
 {
     tmElements_t tm;
-    uint8_t stat = rtcClock.read(tm);
+    rtcClock.read(tm);
     sprintf(out,"%02d.%02d.%02d",tm.Day,tm.Month,(tm.Year+70)%100);
 }
 
 char* CTimeManager::GetWeekDayString()
 {
     tmElements_t tm;
-    uint8_t stat = rtcClock.read(tm);
+    rtcClock.read(tm);
     return weekDayNames[tm.Wday-1];
 }
 
@@ -66,6 +67,7 @@ void CTimeManager::SetDate(int day, int month, int year)
 
 void CTimeManager::LoadSchedule()
 {
+    memset(Schedule,0,sizeof(Schedule));
     for(int i=0;i<CHANNELS_NUM;i++)
     {
         for(int j=0;j<MAX_ITEMS_PER_CHANNEL;j++)
@@ -100,4 +102,56 @@ int CTimeManager::SaveSchedule()
         }
     }
     return bytesWritten;
+}
+
+void CTimeManager::CheckEvents()
+{
+    tmElements_t tm;
+    rtcClock.read(tm);
+    time_t now = rtcClock.get();
+
+    long nowTime = tm.Hour*3600l + tm.Minute*60l + tm.Second;
+    byte todayWeekdayMask = 1<<(tm.Wday-1);
+    for(int channelNum=1;channelNum<=CHANNELS_NUM;channelNum++)
+    {
+        for(int itemNum=0;itemNum<MAX_ITEMS_PER_CHANNEL;itemNum++)
+        {
+            CScheduleItem& item = Schedule[channelNum-1][itemNum];
+            if(item.ActualStartTime!=0)
+            {
+                // Event has not been fired yet
+                if((item.WeekDayMask & todayWeekdayMask) && nowTime==item.PresetTimeMinutes*60l)
+                {
+                    // TODO: add check if channel is not dependent on other enabled channels
+                    if(!chanBusyBitfield)
+                    {
+                        item.ActualStartTime = now;
+                        StartEvent(channelNum,itemNum);
+                    }
+                }
+            }
+            else
+            {
+                // Event is fired, looking for the end time
+                if(now > item.ActualStartTime+item.Duration)
+                {
+                    item.ActualStartTime = 0;
+                    StopEvent(channelNum,itemNum);
+                }
+            }
+        }
+    }
+}
+
+
+void CTimeManager::StartEvent(int channelNum,int eventNum)
+{
+    chanBusyBitfield |= 1<<(channelNum-1);
+    digitalWrite(CHAN_PIN1+channelNum-1,1);
+}
+
+void CTimeManager::StopEvent(int channelNum,int eventNum)
+{
+    digitalWrite(CHAN_PIN1+channelNum-1,0);
+    chanBusyBitfield &= ~(1<<(channelNum-1));
 }
