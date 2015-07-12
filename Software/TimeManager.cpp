@@ -117,7 +117,7 @@ void CTimeManager::CheckEvents()
         for(int itemNum=0;itemNum<MAX_ITEMS_PER_CHANNEL;itemNum++)
         {
             CScheduleItem& item = Schedule[channelNum-1][itemNum];
-            if(item.ActualStartTime!=0)
+            if(item.ActualStartTime==0)
             {
                 // Event has not been fired yet
                 if((item.WeekDayMask & todayWeekdayMask) && nowTime==item.PresetTimeMinutes*60l)

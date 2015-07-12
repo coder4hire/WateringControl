@@ -38,4 +38,12 @@ void CMainScreen::CheckKeys(EKeys keys, EKeys justPressed, EKeys justReleased, b
     {
         SwitchScreens(MENU_SCREEN);
     }
+
+
+// Watchdog testing routine
+
+//    if(justPressed&KEY_CANCEL)
+//    {
+//        while(1);
+//    }
 }

@@ -15,6 +15,7 @@
 #include "ScreenBase.h"
 #include "MainScreen.h"
 #include "TimeManager.h"
+#include <avr/wdt.h>
 
 #define QUANT_DELAY 100
 
@@ -45,6 +46,7 @@ byte arrow[8] =
 
 void setup()
 {
+    wdt_disable();
     lcd.createChar(1,smiley);
     lcd.begin(8, 2);
 
@@ -53,7 +55,30 @@ void setup()
     pinMode(CHAN_PIN3, OUTPUT);
     pinMode(CHAN_PIN4, OUTPUT);
 
+    digitalWrite(CHAN_PIN1,LOW);
+    digitalWrite(CHAN_PIN2,LOW);
+    digitalWrite(CHAN_PIN3,LOW);
+    digitalWrite(CHAN_PIN4,LOW);
+
     RefreshMultiplier=REFRESH_MULTIPLIER_DEFAULT;
+
+  Serial.begin(9600);
+  Serial.println("Initialising...");
+  delay(100); //Allow for serial print to complete.
+
+  //--- Setup the Watchdog Timer --------------------------------------------
+  MCUSR &= ~(1<<WDRF);
+
+  /* In order to change WDE or the prescaler, we need to
+   * set WDCE (This will allow updates for 4 clock cycles).
+   */
+  WDTCSR |= (1<<WDCE) | (1<<WDE);
+
+  /* set new watchdog timeout prescaler value */
+  WDTCSR = 1<<WDP0 | 1<<WDP3; /* 8.0 seconds */
+
+  /* Enable the WD interrupt (note no reset). */
+  WDTCSR |= _BV(WDIE);
 }
 
 void loop()
@@ -74,6 +99,7 @@ void loop()
         CScreenBase::GetCurrentScreen()->Refresh();
     }
 
+    wdt_reset();
     delay(100);
 }
 
@@ -113,3 +139,13 @@ void ShowKeys()
 //            digitalWrite(9,0);
 //        }
 //    }
+
+
+ISR(WDT_vect)
+{
+    //--- This is watchdog timer handler which is called after device is hanged up longer than 8 seconds
+    //--- TODO: Save some status here (into time chip memory) to indicate that chip was reset by WDT
+
+    //--- This command will reset the chip (reset PC to 0)
+    asm volatile ("  jmp 0");
+}
