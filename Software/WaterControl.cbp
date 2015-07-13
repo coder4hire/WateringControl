@@ -651,10 +651,14 @@
 		<Compiler>
 			<Add directory="." />
 		</Compiler>
+		<Unit filename="DHT11.cpp" />
+		<Unit filename="DHT11.h" />
 		<Unit filename="DS1302RTC.cpp" />
 		<Unit filename="DS1302RTC.h" />
 		<Unit filename="EnvLogScreen.cpp" />
 		<Unit filename="EnvLogScreen.h" />
+		<Unit filename="EnvLogger.cpp" />
+		<Unit filename="EnvLogger.h" />
 		<Unit filename="KeysParser.cpp" />
 		<Unit filename="KeysParser.h" />
 		<Unit filename="LiquidCrystal.cpp" />

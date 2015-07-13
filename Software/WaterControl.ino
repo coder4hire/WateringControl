@@ -22,32 +22,9 @@
 byte RefreshMultiplier=5;
 LiquidCrystal lcd(4, 3, 2); //shift input (clk-dat-E)
 
-byte smiley[8] =
-{
-    B01110,
-    B10101,
-    B10101,
-    B10101,
-    B11001,
-    B10001,
-    B01110,
-};
-
-byte arrow[8] =
-{
-    B10000,
-    B00100,
-    B11110,
-    B11111,
-    B11110,
-    B00100,
-    B10000,
-};
-
 void setup()
 {
     wdt_disable();
-    lcd.createChar(1,smiley);
     lcd.begin(8, 2);
 
     pinMode(CHAN_PIN1, OUTPUT);
@@ -62,23 +39,26 @@ void setup()
 
     RefreshMultiplier=REFRESH_MULTIPLIER_DEFAULT;
 
-  Serial.begin(9600);
-  Serial.println("Initialising...");
-  delay(100); //Allow for serial print to complete.
+    Serial.begin(9600);
+    Serial.println("Initialising...");
+    delay(100); //Allow for serial print to complete.
 
-  //--- Setup the Watchdog Timer --------------------------------------------
-  MCUSR &= ~(1<<WDRF);
+    //--- Setup the Watchdog Timer --------------------------------------------
+    MCUSR &= ~(1<<WDRF);
 
-  /* In order to change WDE or the prescaler, we need to
-   * set WDCE (This will allow updates for 4 clock cycles).
-   */
-  WDTCSR |= (1<<WDCE) | (1<<WDE);
+    /* In order to change WDE or the prescaler, we need to
+    * set WDCE (This will allow updates for 4 clock cycles).
+    */
+    WDTCSR |= (1<<WDCE) | (1<<WDE);
 
-  /* set new watchdog timeout prescaler value */
-  WDTCSR = 1<<WDP0 | 1<<WDP3; /* 8.0 seconds */
+    /* set new watchdog timeout prescaler value */
+    WDTCSR = 1<<WDP0 | 1<<WDP3; /* 8.0 seconds */
 
-  /* Enable the WD interrupt (note no reset). */
-  WDTCSR |= _BV(WDIE);
+    /* Enable the WD interrupt (note no reset). */
+    WDTCSR |= _BV(WDIE);
+
+    //--- Showing first screen
+    CScreenBase::GetCurrentScreen()->SwitchScreens(MAIN_SCREEN);
 }
 
 void loop()

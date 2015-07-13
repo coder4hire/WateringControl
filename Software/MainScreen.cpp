@@ -1,14 +1,46 @@
 #include "MainScreen.h"
 #include "TimeManager.h"
+#include "EnvLogger.h"
+
+byte CMainScreen::icons[MAIN_ICONS_NUM][7] =
+{
+    {
+        B00000,
+        B00000,
+        B10010,
+        B01100,
+        B10010,
+        B00000,
+        B00000,
+    },
+    {
+        B01100,
+        B10010,
+        B10010,
+        B01100,
+        B00000,
+        B00000,
+        B00000,
+    }
+};
 
 CMainScreen::CMainScreen()
 {
     OnShow(); // Do this for CMainScreen only because it is first shown screen
+    channelCheckIndex=0;
 }
 
 CMainScreen::~CMainScreen()
 {
     //dtor
+}
+
+void CMainScreen::OnShow()
+{
+    for(int i=0;i<MAIN_ICONS_NUM;i++)
+    {
+        lcd.createChar(i,icons[i]);
+    }
 }
 
 void CMainScreen::Refresh()
@@ -20,15 +52,23 @@ void CMainScreen::Refresh()
     lcd.print(' ');
     lcd.print(CTimeManager::Inst.GetWeekDayString());
     lcd.setCursor(0,1);
-    char row[9]="        ";
-    for(int i=0;i<CHANNELS_NUM;i++)
+
+    //--- Figuring out which working channel to show
+    char workingChannel=' ';
+    for(int i=0;i<CHANNELS_NUM && workingChannel==' ';i++)
     {
-        if(CTimeManager::Inst.IsChannelBusy(i+1))
+        if(CTimeManager::Inst.IsChannelBusy(channelCheckIndex+1))
         {
-            row[i]='1'+i;
+            workingChannel='1'+channelCheckIndex;
         }
+        channelCheckIndex=channelCheckIndex<CHANNELS_NUM-1 ? channelCheckIndex+1 : 0;
     }
-    lcd.print(row);
+
+    //--- Printing second row
+    byte temp=0,humi=0;
+    CEnvLogger::Inst.ReadCurrentData(temp,humi);
+    sprintf(out,"%2d\x01%2d%% %c",temp,humi,workingChannel);
+    lcd.print(out);
 
 }
 

@@ -22,12 +22,12 @@ class CScheduleSymbolsGenerator
         CScheduleSymbolsGenerator();
         virtual ~CScheduleSymbolsGenerator();
         void Start();
-        void SetChannel(int chanNum);
+        //void SetChannel(int chanNum);
         void SetWeekday(byte weekDayMask);
     protected:
         static const byte iconNoPowerRestrictions[7];
         static const byte emptySpaces[2][7];
-        static const byte iconsChannelNums[CHANNELS_NUM][7];
+        //static const byte iconsChannelNums[CHANNELS_NUM][7];
         static const byte iconsWeekDays[12][7];
         byte currentChannel;
         byte currentWeekdayIcons[4];

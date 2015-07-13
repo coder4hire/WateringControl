@@ -37,7 +37,7 @@ const byte CScheduleSymbolsGenerator::emptySpaces[2][7] =
 };
 
 
-const byte CScheduleSymbolsGenerator::iconsChannelNums[CHANNELS_NUM][7] =
+/*const byte CScheduleSymbolsGenerator::iconsChannelNums[CHANNELS_NUM][7] =
 {
     {
         B11111,
@@ -75,7 +75,7 @@ const byte CScheduleSymbolsGenerator::iconsChannelNums[CHANNELS_NUM][7] =
         B11101,
         B11111
     }
-};
+};*/
 
 const byte CScheduleSymbolsGenerator::iconsWeekDays[12][7] =
 {
@@ -212,14 +212,14 @@ void CScheduleSymbolsGenerator::Start()
     currentChannel=255;
 }
 
-void CScheduleSymbolsGenerator::SetChannel(int chanNum)
-{
-    if(chanNum>0 && chanNum<=CHANNELS_NUM && chanNum!=currentChannel)
-    {
-        lcd.createChar(SSYM_CHAN,(uint8_t*)iconsChannelNums[chanNum-1]);
-        currentChannel=chanNum;
-    }
-}
+//void CScheduleSymbolsGenerator::SetChannel(int chanNum)
+//{
+//    if(chanNum>0 && chanNum<=CHANNELS_NUM && chanNum!=currentChannel)
+//    {
+//        lcd.createChar(SSYM_CHAN,(uint8_t*)iconsChannelNums[chanNum-1]);
+//        currentChannel=chanNum;
+//    }
+//}
 
 void CScheduleSymbolsGenerator::SetWeekday(byte weekDayMask)
 {
