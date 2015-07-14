@@ -15,11 +15,14 @@
 #include "ScreenBase.h"
 #include "MainScreen.h"
 #include "TimeManager.h"
+#include "EnvLogger.h"
 #include <avr/wdt.h>
 
 #define QUANT_DELAY 100
 
 byte RefreshMultiplier=5;
+byte EnvironmentMultiplier=50;
+
 LiquidCrystal lcd(4, 3, 2); //shift input (clk-dat-E)
 
 void setup()
@@ -64,6 +67,7 @@ void setup()
 void loop()
 {
     static int refreshCounter=0;
+    static int envCounter=0;
 
     // Processing keypresses
     EKeys justPressed;
@@ -77,6 +81,13 @@ void loop()
         refreshCounter=0;
         CTimeManager::Inst.CheckEvents();
         CScreenBase::GetCurrentScreen()->Refresh();
+    }
+
+    // Processing environment readings
+    if(++envCounter>RefreshMultiplier)
+    {
+        envCounter=0;
+        CEnvLogger::Inst.RefreshData();
     }
 
     wdt_reset();

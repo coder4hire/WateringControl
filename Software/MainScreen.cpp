@@ -66,8 +66,7 @@ void CMainScreen::Refresh()
 
     //--- Printing second row
     byte temp=0,humi=0;
-    CEnvLogger::Inst.ReadCurrentData(temp,humi);
-    sprintf(out,"%2d\x01%2d%% %c",temp,humi,workingChannel);
+    sprintf(out,"%2d\x01%2d%% %c",CEnvLogger::Inst.Temperature,CEnvLogger::Inst.Humidity,workingChannel);
     lcd.print(out);
 
 }

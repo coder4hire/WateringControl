@@ -1,4 +1,5 @@
 #include "EnvLogScreen.h"
+#include "EnvLogger.h"
 
 byte CEnvLogScreen::icons[ENVLOG_ICONS_NUM][7] =
 {
@@ -48,6 +49,9 @@ void CEnvLogScreen::OnShow()
     lcd.print("20");
     lcd.print((char)0);
     lcd.print("30");
+
+    pageType=PT_DATE;
+    dayNum=LOG_DAYS_NUM-1;
     Refresh();
 }
 
@@ -57,8 +61,35 @@ void CEnvLogScreen::Refresh()
 
 void CEnvLogScreen::CheckKeys(EKeys keys, EKeys justPressed, EKeys justReleased, bool isChanged)
 {
-    if(justPressed&KEY_CANCEL)
+    if(justPressed)
     {
-        SwitchScreens(MENU_SCREEN);
+        switch(justPressed)
+        {
+        case KEY_OK:
+            break;
+        case KEY_CANCEL:
+            SwitchScreens(MENU_SCREEN);
+            return;
+        case KEY_UP:
+            pageType=(EPageType)((pageType+PT_MAX-1)%PT_MAX);
+            break;
+        case KEY_DOWN:
+            pageType=(EPageType)((pageType+1)%PT_MAX);
+            break;
+        case KEY_LEFT:
+            dayNum--;
+            if(dayNum<0 || !CEnvLogger::Inst.GetLogItem(dayNum).IsValid())
+            {
+                dayNum = LOG_DAYS_NUM;
+            }
+            break;
+        case KEY_RIGHT:
+            dayNum=(dayNum+1)%LOG_DAYS_NUM;
+            while(!CEnvLogger::Inst.GetLogItem(dayNum).IsValid() && dayNum<LOG_DAYS_NUM-1)
+            {
+                dayNum++;
+            }
+            break;
+        }
     }
 }
