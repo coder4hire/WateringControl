@@ -126,7 +126,7 @@ void CTimeManager::CheckEvents()
                     if(!chanBusyBitfield)
                     {
                         item.ActualStartTime = now;
-                        StartEvent(channelNum,itemNum);
+                        StartEvent(channelNum);
                     }
                 }
             }
@@ -136,7 +136,7 @@ void CTimeManager::CheckEvents()
                 if(now > item.ActualStartTime+item.Duration)
                 {
                     item.ActualStartTime = 0;
-                    StopEvent(channelNum,itemNum);
+                    StopEvent(channelNum);
                 }
             }
         }
@@ -144,14 +144,25 @@ void CTimeManager::CheckEvents()
 }
 
 
-void CTimeManager::StartEvent(int channelNum,int eventNum)
+void CTimeManager::StartEvent(int channelNum)
 {
     chanBusyBitfield |= 1<<(channelNum-1);
     digitalWrite(CHAN_PIN1+channelNum-1,1);
 }
 
-void CTimeManager::StopEvent(int channelNum,int eventNum)
+void CTimeManager::StopEvent(int channelNum)
 {
     digitalWrite(CHAN_PIN1+channelNum-1,0);
     chanBusyBitfield &= ~(1<<(channelNum-1));
+}
+
+void CTimeManager::ResetAllSchedules()
+{
+    StopEvent(1);
+    StopEvent(2);
+    StopEvent(3);
+    StopEvent(4);
+
+    memset(Schedule,0,sizeof(Schedule));
+    SaveSchedule();
 }

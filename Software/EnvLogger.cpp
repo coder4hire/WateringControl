@@ -3,65 +3,17 @@
 
 CEnvLogger CEnvLogger::Inst;
 
-byte EnvLogItem::GetMinTemperature()
-{
-    byte minVal=AvgTemp[0];
-    for(int i=1;i<LOG_SEGMENTS_NUM;i++)
-    {
-        if(AvgTemp[i] && AvgHumi[i] && minVal>AvgTemp[i])
-        {
-            minVal=AvgTemp[i];
-        }
-    }
-    return minVal;
-}
-
-byte EnvLogItem::GetMaxTemperature()
-{
-    byte maxVal=AvgTemp[0];
-    for(int i=1;i<LOG_SEGMENTS_NUM;i++)
-    {
-        if(AvgTemp[i] && AvgHumi[i] && maxVal<AvgTemp[i])
-        {
-            maxVal=AvgTemp[i];
-        }
-    }
-    return maxVal;
-}
-
-byte EnvLogItem::GetMinHumidity()
-{
-    byte minVal=AvgHumi[0];
-    for(int i=1;i<LOG_SEGMENTS_NUM;i++)
-    {
-        if(AvgTemp[i] && AvgHumi[i] && minVal>AvgHumi[i])
-        {
-            minVal=AvgHumi[i];
-        }
-    }
-    return minVal;
-}
-
-byte EnvLogItem::GetMaxHumidity()
-{
-    byte maxVal=AvgHumi[0];
-    for(int i=1;i<LOG_SEGMENTS_NUM;i++)
-    {
-        if(AvgTemp[i] && AvgHumi[i] && maxVal<AvgHumi[i])
-        {
-            maxVal=AvgHumi[i];
-        }
-    }
-    return maxVal;
-}
-
-
 CEnvLogger::CEnvLogger()
 {
     failuresCount=0;
     Temperature=0;
     Humidity=0;
     memset(envLogData,0,sizeof(envLogData));
+
+//    for(int i=0;i<sizeof(envLogData);i++)
+//    {
+//        ((char*)&envLogData)[i] = rand()%256;
+//    }
 
     numReadouts=0;
     sumTemp=0;
@@ -106,28 +58,44 @@ void CEnvLogger::StoreData()
     short newDate = (short)(time/(3600L*24));
     byte segmentNum = (time/(3600L*3))%8;
 
-    //--- Checking for date change
-    if(newDate!=envLogData[LOG_DAYS_NUM-1].Date)
+    if(Humidity && Temperature)
     {
-        memmove(envLogData,envLogData+1,sizeof(envLogData[0]));
-        memset(envLogData+(LOG_DAYS_NUM-1),0,sizeof(envLogData[0]));
-        envLogData[LOG_DAYS_NUM-1].Date = newDate;
+        //--- Update data only if we have valid readings
+
+        //--- Checking for date change
+        if(newDate!=envLogData[LOG_DAYS_NUM-1].Date)
+        {
+            memmove(envLogData,envLogData+1,sizeof(envLogData[0]));
+            memset(envLogData+(LOG_DAYS_NUM-1),0,sizeof(envLogData[0]));
+            envLogData[LOG_DAYS_NUM-1].Date = newDate;
+        }
+        CEnvLogItem& item = envLogData[LOG_DAYS_NUM-1];
+
+        //--- Checking for segment change
+        if(segmentNum!=prevSegment)
+        {
+            prevSegment=segmentNum;
+            numReadouts=0;
+            sumTemp=0;
+            sumHumi=0;
+        }
+
+        //--- Filling in data
+        sumHumi+=Humidity;
+        sumTemp+=Temperature;
+        numReadouts++;
+
+        item.AvgHumi[segmentNum]=sumHumi/numReadouts;
+        if(item.AvgHumi[segmentNum]>99)
+        {
+            item.AvgHumi[segmentNum]=99;
+        }
+        item.AvgTemp[segmentNum]=sumTemp/numReadouts;
+        if(item.AvgTemp[segmentNum]>99)
+        {
+            item.AvgTemp[segmentNum]=99;
+        }
+
     }
-    EnvLogItem& item = envLogData[LOG_DAYS_NUM-1];
-
-    // Checking for segment change
-    if(segmentNum!=prevSegment)
-    {
-        prevSegment=segmentNum;
-        numReadouts=0;
-        sumTemp=0;
-        sumHumi=0;
-    }
-
-    sumHumi+=Humidity;
-    sumTemp+=Temperature;
-    numReadouts++;
-
-    item.AvgHumi[segmentNum]=sumHumi/numReadouts;
-    item.AvgTemp[segmentNum]=sumTemp/numReadouts;
 }
+

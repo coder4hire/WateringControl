@@ -655,6 +655,8 @@
 		<Unit filename="DHT11.h" />
 		<Unit filename="DS1302RTC.cpp" />
 		<Unit filename="DS1302RTC.h" />
+		<Unit filename="EnvLogItem.cpp" />
+		<Unit filename="EnvLogItem.h" />
 		<Unit filename="EnvLogScreen.cpp" />
 		<Unit filename="EnvLogScreen.h" />
 		<Unit filename="EnvLogger.cpp" />

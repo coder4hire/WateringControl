@@ -4,7 +4,7 @@
 #include "DS1302RTC.h"
 
 #define CHANNELS_NUM 4
-#define MAX_ITEMS_PER_CHANNEL 10
+#define MAX_ITEMS_PER_CHANNEL 6
 
 enum EChannelPins
 {
@@ -55,12 +55,14 @@ class CTimeManager
         void CheckEvents();
         bool IsChannelBusy(int chanNum){return (chanBusyBitfield&(1<<(chanNum-1)))!=0;}
 
+        void ResetAllSchedules();
+
     protected:
         CTimeManager();
         DS1302RTC rtcClock;
 
-        void StartEvent(int channelNum,int eventNum);
-        void StopEvent(int channelNum,int eventNum);
+        void StartEvent(int channelNum);
+        void StopEvent(int channelNum);
 
         static char weekDayNames[7][3];
 

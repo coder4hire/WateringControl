@@ -7,6 +7,7 @@ enum SETTINGS_ITEMS
 {
     SETTING_TIME=0,
     SETTING_DATE,
+    SETTING_RESET_SCHED,
     MAX_SETTINGS_NUM
 };
 
@@ -37,7 +38,7 @@ class CSettingsScreen : public CScreenBase
         static const char cursorPositions[MAX_SETTINGS_NUM][8];
         static const char minValues[MAX_SETTINGS_NUM][8];
         static const char maxValues[MAX_SETTINGS_NUM][8];
-        static const char settingsNames[MAX_SETTINGS_NUM][8];
+        static const char settingsNames[MAX_SETTINGS_NUM][9];
         static const char maxDays[12];
 
         void SaveData();

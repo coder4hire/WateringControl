@@ -27,6 +27,8 @@ class CEnvLogScreen : public CScreenBase
 
         EPageType pageType;
         int dayNum;
+
+        void PaintScreen();
 };
 
 #endif // CENVLOGSCREEN_H

@@ -1,10 +1,10 @@
 #include "SettingsScreen.h"
 #include "TimeManager.h"
 
-const char CSettingsScreen::cursorPositions[MAX_SETTINGS_NUM][8]={{0,1,3,4,-1},{0,1,3,4,6,7,-1}};
-const char CSettingsScreen::minValues[MAX_SETTINGS_NUM][8]={{'0','0','0','0',-1},{'0','0','0','0','0','0',-1}};
-const char CSettingsScreen::maxValues[MAX_SETTINGS_NUM][8]={{'2','9','5','9',-1},{'3','9','1','9','9','9',-1}};
-const char CSettingsScreen::settingsNames[MAX_SETTINGS_NUM][8]={"Time   ","Date   "};
+const char CSettingsScreen::cursorPositions[MAX_SETTINGS_NUM][8]={{0,1,3,4,-1},{0,1,3,4,6,7,-1},{7,-1}};
+const char CSettingsScreen::minValues[MAX_SETTINGS_NUM][8]={{'0','0','0','0',-1},{'0','0','0','0','0','0',-1},{'N',-1}};
+const char CSettingsScreen::maxValues[MAX_SETTINGS_NUM][8]={{'2','9','5','9',-1},{'3','9','1','9','9','9',-1},{'Y',-1}};
+const char CSettingsScreen::settingsNames[MAX_SETTINGS_NUM][9]={"Time    ","Date    ","Reset   "};
 const char CSettingsScreen::maxDays[12]={31,28,31,30,31,30,31,31,30,31,30,31};
 
 const byte CSettingsScreen::icons[SETTINGS_ICONS_NUM][7] =
@@ -26,6 +26,15 @@ const byte CSettingsScreen::icons[SETTINGS_ICONS_NUM][7] =
         B11011,
         B10001,
         B11111,
+    },
+    {
+        B00010,
+        B00100,
+        B01000,
+        B11110,
+        B00100,
+        B01000,
+        B10000,
     }
 };
 
@@ -71,7 +80,6 @@ void CSettingsScreen::PaintMenu()
     lcd.print("        ");
     lcd.setCursor(0,1);
     lcd.print(value);
-
 }
 
 void CSettingsScreen::Refresh()
@@ -79,7 +87,7 @@ void CSettingsScreen::Refresh()
     if(isInEditMode)
     {
         lcd.setCursor(cursorPositions[settingNum][blinkPosition],1);
-        lcd.print(isBlinkingShown? ValueDigit():' ');
+        lcd.print(isBlinkingShown? ValueDigit() : ' ');
         isBlinkingShown=!isBlinkingShown;
     }
 };
@@ -131,6 +139,12 @@ void CSettingsScreen::CheckKeys(EKeys keys, EKeys justPressed, EKeys justRelease
                 }
                 break;
             case KEY_UP:
+                if(settingNum==SETTING_RESET_SCHED)
+                {
+                    ValueDigit()= ValueDigit()==maxValues[settingNum][blinkPosition] ? minValues[settingNum][blinkPosition] : maxValues[settingNum][blinkPosition];
+                    break;
+                }
+
                 if(ValueDigit()==maxValues[settingNum][blinkPosition])
                 {
                     ValueDigit()=minValues[settingNum][blinkPosition];
@@ -141,6 +155,12 @@ void CSettingsScreen::CheckKeys(EKeys keys, EKeys justPressed, EKeys justRelease
                 }
                 break;
             case KEY_DOWN:
+                if(settingNum==SETTING_RESET_SCHED)
+                {
+                    ValueDigit()= ValueDigit()==maxValues[settingNum][blinkPosition] ? minValues[settingNum][blinkPosition] : maxValues[settingNum][blinkPosition];
+                    break;
+                }
+
                 if(ValueDigit()==minValues[settingNum][blinkPosition])
                 {
                     ValueDigit()=maxValues[settingNum][blinkPosition];
@@ -204,6 +224,12 @@ void CSettingsScreen::SaveData()
             }
         }
         break;
+    case SETTING_RESET_SCHED:
+        if(value[7]=='Y')
+        {
+            CTimeManager::Inst.ResetAllSchedules();
+        }
+        break;
     }
 }
 
@@ -216,6 +242,9 @@ void CSettingsScreen::LoadData()
         break;
     case SETTING_DATE:
         CTimeManager::Inst.GetDateString(value);
+        break;
+    case SETTING_RESET_SCHED:
+        strcpy(value,"Sched: N");
         break;
     }
 }
