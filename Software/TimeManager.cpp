@@ -7,7 +7,9 @@ char CTimeManager::weekDayNames[7][3]={"Su","Mo","Tu","We","Th","Fr","Sa"};
 
 CTimeManager::CTimeManager():
 rtcClock(7,6,5),
-chanBusyBitfield(0)
+chanBusyBitfield(0),
+quickLaunchStartTime(0),
+quickLaunchChannel(0)
 {
     if(rtcClock.haltRTC())
     {
@@ -122,6 +124,10 @@ void CTimeManager::CheckEvents()
                 // Event has not been fired yet
                 if((item.WeekDayMask & todayWeekdayMask) && nowTime==item.PresetTimeMinutes*60l)
                 {
+                    // If quick launch event is ongoing, cancel it
+                    StopQuickLaunch();
+
+                    // Launching timed event
                     // TODO: add check if channel is not dependent on other enabled channels
                     if(!chanBusyBitfield)
                     {
@@ -141,8 +147,34 @@ void CTimeManager::CheckEvents()
             }
         }
     }
+
+    // Looking for the end time of quick launch event
+    if(quickLaunchStartTime && now>(quickLaunchStartTime+QUICK_LAUNCH_DURATION))
+    {
+        StopQuickLaunch();
+    }
 }
 
+void CTimeManager::StartQuickLaunch(byte channelNum)
+{
+    if(channelNum>0 && channelNum<=CHANNELS_NUM &&
+       !quickLaunchChannel && !chanBusyBitfield)
+    {
+        quickLaunchChannel=channelNum;
+        quickLaunchStartTime=rtcClock.get();
+        StartEvent(quickLaunchChannel);
+    }
+}
+
+void CTimeManager::StopQuickLaunch()
+{
+    if(quickLaunchChannel)
+    {
+        StopEvent(quickLaunchChannel);
+        quickLaunchChannel = 0;
+    }
+    quickLaunchStartTime = 0;
+}
 
 void CTimeManager::StartEvent(int channelNum)
 {

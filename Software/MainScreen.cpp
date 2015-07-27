@@ -73,9 +73,26 @@ void CMainScreen::Refresh()
 
 void CMainScreen::CheckKeys(EKeys keys, EKeys justPressed, EKeys justReleased, bool isChanged)
 {
-    if(justPressed&KEY_OK)
+    switch(justPressed)
     {
-        SwitchScreens(MENU_SCREEN);
+        case KEY_OK:
+            SwitchScreens(MENU_SCREEN);
+            break;
+        case KEY_CANCEL|KEY_UP:
+            CTimeManager::Inst.StartQuickLaunch(1);
+            break;
+        case KEY_CANCEL|KEY_LEFT:
+            CTimeManager::Inst.StartQuickLaunch(2);
+            break;
+        case KEY_CANCEL|KEY_RIGHT:
+            CTimeManager::Inst.StartQuickLaunch(3);
+            break;
+        case KEY_CANCEL|KEY_DOWN:
+            CTimeManager::Inst.StartQuickLaunch(4);
+            break;
+        case KEY_CANCEL:
+            CTimeManager::Inst.StopQuickLaunch();
+
     }
 
 

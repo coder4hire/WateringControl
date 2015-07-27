@@ -65,7 +65,7 @@ void CEnvLogger::StoreData()
         //--- Checking for date change
         if(newDate!=envLogData[LOG_DAYS_NUM-1].Date)
         {
-            memmove(envLogData,envLogData+1,sizeof(envLogData[0]));
+            memmove(envLogData,envLogData+1,sizeof(envLogData[0])*(LOG_DAYS_NUM-1));
             memset(envLogData+(LOG_DAYS_NUM-1),0,sizeof(envLogData[0]));
             envLogData[LOG_DAYS_NUM-1].Date = newDate;
         }

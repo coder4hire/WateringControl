@@ -5,6 +5,7 @@
 
 #define CHANNELS_NUM 4
 #define MAX_ITEMS_PER_CHANNEL 6
+#define QUICK_LAUNCH_DURATION 30
 
 enum EChannelPins
 {
@@ -56,6 +57,8 @@ class CTimeManager
         bool IsChannelBusy(int chanNum){return (chanBusyBitfield&(1<<(chanNum-1)))!=0;}
 
         void ResetAllSchedules();
+        void StartQuickLaunch(byte channelNum);
+        void StopQuickLaunch();
 
     protected:
         CTimeManager();
@@ -67,6 +70,9 @@ class CTimeManager
         static char weekDayNames[7][3];
 
         byte chanBusyBitfield;
+
+        time_t quickLaunchStartTime;
+        byte quickLaunchChannel;
     private:
 };
 
