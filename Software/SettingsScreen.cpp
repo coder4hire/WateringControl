@@ -1,10 +1,10 @@
 #include "SettingsScreen.h"
 #include "TimeManager.h"
 
-const char CSettingsScreen::cursorPositions[MAX_SETTINGS_NUM][8]={{0,1,3,4,-1},{0,1,3,4,6,7,-1},{7,-1}};
-const char CSettingsScreen::minValues[MAX_SETTINGS_NUM][8]={{'0','0','0','0',-1},{'0','0','0','0','0','0',-1},{'N',-1}};
-const char CSettingsScreen::maxValues[MAX_SETTINGS_NUM][8]={{'2','9','5','9',-1},{'3','9','1','9','9','9',-1},{'Y',-1}};
-const char CSettingsScreen::settingsNames[MAX_SETTINGS_NUM][9]={"Time    ","Date    ","Reset   "};
+const char CSettingsScreen::cursorPositions[MAX_SETTINGS_NUM][8]={{0,1,3,4,-1},{0,1,3,4,6,7,-1},{4,5,6,7,-1},{7,-1}};
+const char CSettingsScreen::minValues[MAX_SETTINGS_NUM][8]={{'0','0','0','0',-1},{'0','0','0','0','0','0',-1},{'N','N','N','N',-1},{'N',-1}};
+const char CSettingsScreen::maxValues[MAX_SETTINGS_NUM][8]={{'2','9','5','9',-1},{'3','9','1','9','9','9',-1},{'Y','Y','Y','Y',-1},{'Y',-1}};
+const char CSettingsScreen::settingsNames[MAX_SETTINGS_NUM][9]={"Time    ","Date    ","HP:1234 ","Reset   "};
 const char CSettingsScreen::maxDays[12]={31,28,31,30,31,30,31,31,30,31,30,31};
 
 const byte CSettingsScreen::icons[SETTINGS_ICONS_NUM][7] =
@@ -139,7 +139,7 @@ void CSettingsScreen::CheckKeys(EKeys keys, EKeys justPressed, EKeys justRelease
                 }
                 break;
             case KEY_UP:
-                if(settingNum==SETTING_RESET_SCHED)
+                if(settingNum==SETTING_RESET_SCHED || settingNum==SETTING_HIGH_POWER)
                 {
                     ValueDigit()= ValueDigit()==maxValues[settingNum][blinkPosition] ? minValues[settingNum][blinkPosition] : maxValues[settingNum][blinkPosition];
                     break;
@@ -155,7 +155,7 @@ void CSettingsScreen::CheckKeys(EKeys keys, EKeys justPressed, EKeys justRelease
                 }
                 break;
             case KEY_DOWN:
-                if(settingNum==SETTING_RESET_SCHED)
+                if(settingNum==SETTING_RESET_SCHED || settingNum==SETTING_HIGH_POWER)
                 {
                     ValueDigit()= ValueDigit()==maxValues[settingNum][blinkPosition] ? minValues[settingNum][blinkPosition] : maxValues[settingNum][blinkPosition];
                     break;
@@ -224,6 +224,13 @@ void CSettingsScreen::SaveData()
             }
         }
         break;
+    case SETTING_HIGH_POWER:
+        for(int i=0;i<4;i++)
+        {
+            CTimeManager::Inst.IsHighPower[i]=(value[4+i]=='Y');
+        }
+        CTimeManager::Inst.SaveLowPowerSettings();
+        break;
     case SETTING_RESET_SCHED:
         if(value[7]=='Y')
         {
@@ -242,6 +249,14 @@ void CSettingsScreen::LoadData()
         break;
     case SETTING_DATE:
         CTimeManager::Inst.GetDateString(value);
+        break;
+    case SETTING_HIGH_POWER:
+        memset(value,' ',8);
+        value[8]=0;
+        for(int i=0;i<4;i++)
+        {
+            value[4+i] = CTimeManager::Inst.IsHighPower[i] ? 'Y' : 'N';
+        }
         break;
     case SETTING_RESET_SCHED:
         strcpy(value,"Sched: N");

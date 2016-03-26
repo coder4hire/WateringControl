@@ -57,7 +57,7 @@ void CScheduleScreen::PrintScreen()
     lcd.print((char)('a'+currentItem));
 
     sprintf(strTime,"%c%c:%c%c",value[0],value[1],value[2],value[3]);
-    lcd.print((char)6);
+    lcd.print(CTimeManager::Inst.IsHighPower[currentChannel] ? (char)6 :' ');
     lcd.print(strTime);
 
     symbolsGenerator.SetWeekday(CalculateWeekdayMask());

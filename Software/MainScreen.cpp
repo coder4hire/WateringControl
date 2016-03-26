@@ -57,7 +57,9 @@ void CMainScreen::Refresh()
     char workingChannel=' ';
     for(int i=0;i<CHANNELS_NUM && workingChannel==' ';i++)
     {
-        if(CTimeManager::Inst.IsChannelBusy(channelCheckIndex+1))
+        bool isHPChanBusy = CTimeManager::Inst.IsAnyHPChannelBusy();
+        if((isHPChanBusy && CTimeManager::Inst.IsHPChannelBusy(channelCheckIndex+1)) ||
+           (!isHPChanBusy && CTimeManager::Inst.IsLPChannelBusy(channelCheckIndex+1)))
         {
             workingChannel='1'+channelCheckIndex;
         }

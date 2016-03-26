@@ -17,6 +17,7 @@ quickLaunchChannel(0)
     }
 
     LoadSchedule();
+    LoadLowPowerSettings();
 }
 
 CTimeManager::~CTimeManager()
@@ -85,6 +86,7 @@ void CTimeManager::LoadSchedule()
 
 int CTimeManager::SaveSchedule()
 {
+    //--- Saving Schedule
     int bytesWritten=0;
     for(int i=0;i<CHANNELS_NUM;i++)
     {
@@ -104,6 +106,30 @@ int CTimeManager::SaveSchedule()
         }
     }
     return bytesWritten;
+}
+
+void CTimeManager::LoadLowPowerSettings()
+{
+    //--- Loading Low Power settings
+    int lowPowerEEPROM = CHANNELS_NUM*MAX_ITEMS_PER_CHANNEL*CSCHEDULEITEM_SAVEABLE_SIZE;
+    for(int i=0;i<CHANNELS_NUM;i++)
+    {
+        IsHighPower[i]= EEPROM.read(lowPowerEEPROM+i);
+    }
+}
+
+void CTimeManager::SaveLowPowerSettings()
+{
+    //--- Loading Low Power settings
+    int lowPowerEEPROM = CHANNELS_NUM*MAX_ITEMS_PER_CHANNEL*CSCHEDULEITEM_SAVEABLE_SIZE;
+    for(int i=0;i<CHANNELS_NUM;i++)
+    {
+        byte lp = EEPROM.read(lowPowerEEPROM+i);
+        if(lp!=IsHighPower[i])
+        {
+            EEPROM.write(lowPowerEEPROM+i,IsHighPower[i]);
+        }
+    }
 }
 
 void CTimeManager::CheckEvents()
@@ -129,7 +155,7 @@ void CTimeManager::CheckEvents()
 
                     // Launching timed event
                     // TODO: add check if channel is not dependent on other enabled channels
-                    if(!chanBusyBitfield)
+                    if(!IsAnyHPChannelBusy() || !IsHighPower[channelNum])
                     {
                         item.ActualStartTime = now;
                         StartEvent(channelNum);
@@ -158,7 +184,7 @@ void CTimeManager::CheckEvents()
 void CTimeManager::StartQuickLaunch(byte channelNum)
 {
     if(channelNum>0 && channelNum<=CHANNELS_NUM &&
-       !quickLaunchChannel && !chanBusyBitfield)
+       !quickLaunchChannel && !IsAnyHPChannelBusy())
     {
         quickLaunchChannel=channelNum;
         quickLaunchStartTime=rtcClock.get();
@@ -178,7 +204,14 @@ void CTimeManager::StopQuickLaunch()
 
 void CTimeManager::StartEvent(int channelNum)
 {
-    chanBusyBitfield |= 1<<(channelNum-1);
+    if(IsHighPower[channelNum])
+    {
+        chanBusyBitfield |= 1<<(channelNum-1);
+    }
+    else
+    {
+        chanBusyBitfield |= 0x10<<(channelNum-1);
+    }
     digitalWrite(CHAN_PIN1+channelNum-1,1);
 }
 
@@ -186,6 +219,7 @@ void CTimeManager::StopEvent(int channelNum)
 {
     digitalWrite(CHAN_PIN1+channelNum-1,0);
     chanBusyBitfield &= ~(1<<(channelNum-1));
+    chanBusyBitfield &= ~(0x10<<(channelNum-1));
 }
 
 void CTimeManager::ResetAllSchedules()

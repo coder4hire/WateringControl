@@ -49,12 +49,17 @@ class CTimeManager
         char* GetWeekDayString();
 
         CScheduleItem Schedule[CHANNELS_NUM][MAX_ITEMS_PER_CHANNEL];
+        byte IsHighPower[CHANNELS_NUM];
 
         void LoadSchedule();
         int SaveSchedule();
+        void LoadLowPowerSettings();
+        void SaveLowPowerSettings();
 
         void CheckEvents();
-        bool IsChannelBusy(int chanNum){return (chanBusyBitfield&(1<<(chanNum-1)))!=0;}
+        bool IsHPChannelBusy(int chanNum){return (chanBusyBitfield&(1<<(chanNum-1)))!=0;}
+        bool IsLPChannelBusy(int chanNum){return (chanBusyBitfield&(0x10<<(chanNum-1)))!=0;}
+        bool IsAnyHPChannelBusy(){return chanBusyBitfield&0xF;}
 
         void ResetAllSchedules();
         void StartQuickLaunch(byte channelNum);
